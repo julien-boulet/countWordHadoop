@@ -3,7 +3,7 @@
 ## Summary
 
 - [The statement](#The-statement)
-- [Build it](#Build-it)
+- [Run it](#Run-it)
 
 ## The statement
 
@@ -12,7 +12,26 @@ Rendu attendu: code source Java
 
 J'ai découpé le fichier les3moustquetaires.txt en trois pour avoir trois mappers dans le job1. Ils sont dans le dossier files
 
-## Build it
+## Run it
+
+### With Docker :
+
+#### Prerequisites
+
+```bash
+Docker
+Docker-compose
+```
+
+#### Command line
+
+```bash
+docker-compose up
+
+docker exec -it namenode bash
+
+sh /script/script.sh
+```
 
 ### With Java and Gradle
 
@@ -29,3 +48,5 @@ J'ai découpé le fichier les3moustquetaires.txt en trois pour avoir trois mappe
 # Compilation
 ./gradlew clean build
 ```
+
+

@@ -1,7 +1,0 @@
-cd /Users/jboulet/Downloads/perso/java/countWordHadoop && docker-compose down && docker volume prune -f && docker-compose up
-
-cd /Users/jboulet/Downloads/perso/java/countWordHadoop && docker cp build/libs/countWordHadoop.jar namenode:countWordHadoop.jar && docker cp files/. namenode:/input/ && docker exec -it namenode bash
-
-hadoop fs -mkdir -p input && hadoop fs -put ./input/* input
-
-hadoop jar countWordHadoop.jar com.boubou.WordCount -Dwordcount.case.sensitive=false input output && hadoop fs -head output/out2/part-r-00000

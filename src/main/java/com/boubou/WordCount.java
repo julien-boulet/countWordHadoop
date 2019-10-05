@@ -36,7 +36,7 @@ public class WordCount {
         @Override
         public void setup(Context context) throws IOException {
             conf = context.getConfiguration();
-            // set case sensitive to true by default. To activate it set this variable to false when start program
+            // set case sensitive to true by default. To activate it set this variable to false when you start program
             caseSensitive = conf.getBoolean("wordcount.case.sensitive", true);
         }
 
