@@ -13,7 +13,7 @@ Rendu attendu: code source Java
 J'ai découpé le fichier les3moustquetaires.txt en trois pour avoir trois mappers dans le job1. Ils sont dans le dossier files
 
 Le docker-compose est auto-porteur. Le dockerfile build le jar avec gradle et le rajoute dans une image custom de namenode.
-Les 3 fichiers textes et le script de lancement du job sont montés dans le namenode grace a des volumes.
+Les 3 fichiers textes et le script de lancement du job sont montés dans le namenode grace à des volumes.
 
 ## Run it
 
@@ -38,7 +38,7 @@ docker exec -it namenode bash
 # run with default variables case sensitive and nb resultats
 sh /script/script.sh
 
-# or run with customs variables
+# or run with custom variables
 sh /script/script.sh false 100
 
 ```
