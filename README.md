@@ -29,11 +29,18 @@ Docker-compose
 #### Command line
 
 ```bash
+# start docker-compose
 docker-compose up
 
+# connect to the node
 docker exec -it namenode bash
 
+# run with default variables case sensitive and nb resultats
 sh /script/script.sh
+
+# or run with customs variables
+sh /script/script.sh false 100
+
 ```
 
 ### With Java and Gradle

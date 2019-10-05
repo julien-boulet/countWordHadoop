@@ -94,11 +94,21 @@ public class WordCount {
         // Works because I force only one reducer on Job2
         private int count = 0;
 
+        private int maxResults;
+        private Configuration conf;
+
+        @Override
+        public void setup(Reducer.Context context) throws IOException {
+            conf = context.getConfiguration();
+            // set the number of results to 100 by default.
+            maxResults = conf.getInt("wordcount.nb.results", 100);
+        }
+
         @Override
         protected void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             Iterator i$ = values.iterator();
 
-            while(i$.hasNext() && count < 100) {
+            while(i$.hasNext() && count < maxResults) {
                 Text value = (Text) i$.next();
                 context.write(key, value);
                 count++;
