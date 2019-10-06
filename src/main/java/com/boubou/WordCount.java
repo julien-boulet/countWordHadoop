@@ -5,7 +5,6 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Counter;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -27,7 +26,7 @@ public class WordCount {
      */
     private static class TokenizerMapper extends Mapper<Object, Text, Text, LongWritable>{
 
-        private final static LongWritable one = new LongWritable(1);
+        private static final LongWritable one = new LongWritable(1);
         private Text word = new Text();
 
         private boolean caseSensitive;
@@ -106,10 +105,10 @@ public class WordCount {
 
         @Override
         protected void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            Iterator i$ = values.iterator();
+            Iterator iterator = values.iterator();
 
-            while(i$.hasNext() && count < maxResults) {
-                Text value = (Text) i$.next();
+            while(iterator.hasNext() && count < maxResults) {
+                Text value = (Text) iterator.next();
                 context.write(key, value);
                 count++;
             }
