@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 public class WordCount {
 
     /**
-     * Mapper class to Split part of text, given to this worker, in word. Write in context each word with 1
+     * Mapper class to split part of text, given to this worker, in word. Write in context each word with 1
      * Used by job1
      */
     private static class TokenizerMapper extends Mapper<Object, Text, Text, LongWritable>{
@@ -86,7 +86,7 @@ public class WordCount {
     }
 
     /**
-     * Reducer to limit the number of result at 100
+     * Reducer to limit the number of result to 100
      * Use by the job2
      */
     private static class LimitReducer extends Reducer<LongWritable,Text,LongWritable,Text> {
@@ -120,12 +120,19 @@ public class WordCount {
     public static void main(String[] args) throws Exception {
 
         Configuration conf = new Configuration();
-        GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
-        String[] remainingArgs = optionParser.getRemainingArgs();
-        if ((remainingArgs.length != 2) && (remainingArgs.length != 3)) {
+        String[] remainingArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+
+        if (remainingArgs.length != 2) {
             System.err.println("Usage: wordcount <in> <out> ");
             System.exit(2);
         }
+
+        Path inputPath = new Path(remainingArgs[0]);
+        Path outputDir = new Path(remainingArgs[1]);
+
+        // Delete output if exists
+        FileSystem hdfs = FileSystem.get(conf);
+        if (hdfs.exists(outputDir)) hdfs.delete(outputDir, true);
 
         Job job1 = Job.getInstance(conf, "word count");
         job1.setJarByClass(WordCount.class);
@@ -138,15 +145,8 @@ public class WordCount {
         job1.setOutputValueClass(LongWritable.class);
         job1.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-        Path inputPath = new Path(remainingArgs[0]);
-        Path outputDir = new Path(remainingArgs[1]);
-
         FileInputFormat.addInputPath(job1, inputPath);
         FileOutputFormat.setOutputPath(job1, new Path(outputDir, "out1"));
-
-        // Delete output if exists
-        FileSystem hdfs = FileSystem.get(conf);
-        if (hdfs.exists(outputDir)) hdfs.delete(outputDir, true);
 
         if (!job1.waitForCompletion(true)) {
             System.exit(1);
@@ -163,8 +163,10 @@ public class WordCount {
         job2.setOutputKeyClass(LongWritable.class);
         job2.setOutputValueClass(Text.class);
         job2.setInputFormatClass(SequenceFileInputFormat.class);
+
         FileInputFormat.addInputPath(job2, new Path(outputDir, "out1"));
         FileOutputFormat.setOutputPath(job2, new Path(outputDir, "out2"));
+
         if (!job2.waitForCompletion(true)) {
             System.exit(1);
         }
