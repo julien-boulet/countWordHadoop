@@ -43,7 +43,7 @@ public class WordCount {
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
             String line = (caseSensitive) ? value.toString() : value.toString().toLowerCase();
-            StringTokenizer itr = new StringTokenizer(line.toLowerCase(), " \t\n\r\f\"[]'.,/#!$%^&*;:{}=-_`~()«»?");
+            StringTokenizer itr = new StringTokenizer(line, " \t\n\r\f\"[]'.,/#!$%^&*;:{}=-_`~()«»?");
             while (itr.hasMoreTokens()) {
                 word.set(itr.nextToken());
                 context.write(word, one);
